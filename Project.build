@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="snl" default="build" basedir=". " xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+  <description>Automated Build</description>
+
+  <property name="nant.settings.currentframework" value="net-3.5" />
+  <property name="debug" value="true" />
+  <property name="build.dir" value="build" />
+  <property name="lib" value="lib"/>
+  <property name="ESRI.dir" value="C:\Program Files\ArcGIS\DotNet"/>
+  <!--Setup the directories where the web application should be deployed. This can be a UNC path-->
+  <property name="WebApplicationDir" value="C:\Inetpub\wwwroot\WebApplication"/>
+  <property name="WebApplicationDirBin" value="C:\Inetpub\wwwroot\WebApplication\Bin"/>
+  <!-- Setup the directories where the web site should be deployed. This can be a UNC path-->
+  <property name="WebSiteDir" value="C:\Inetpub\wwwroot\WebSite"/>
+  <property name="WebSiteDirBin" value="C:\Inetpub\wwwroot\WebSite\Bin"/>
+  <!--Setup the name of the web server machine which has IIS installed. Defaults to the current machine name. But the name of a remote machine can be specified also-->
+  <property name="webServerName" value="${environment::get-machine-name()}" readonly="false"/>
+  <property name="env" value="local" readonly="false"/>
+  <property name="localPropertiesFile" value="${env}.properties.xml"/>
+
+  <property name="AGS_OUTPUT_DIR" value="c:\arsgisserver\arcgisoutput" readonly="false"/>
+  <property name="IMPERSONATE_USERNAME" value="XXXUSERNAME" readonly="false"/>
+  <property name="IMPERSONATE_PASSWORD" value="YYYPASSWORD" readonly="false"/>
+  <property name="CONFIG_CONNECTION_STRING" value="server=(local);database=Northwind;Integrated Security=SSPI" readonly="false"/>
+
+  <!--Include the properties file which has been setup with the property values for the specific environment-->
+  <!-- If the 'env' variable was set to 'prod' targeting the production environment then the file named 'prod.properties.xml' will be loaded-->
+  <!-- If the 'env' variable was set to 'test' targeting the production environment then the file named 'test.properties.xml' will be loaded-->
+  <if test="${file::exists(localPropertiesFile)}">
+    <echo message="Loading ${localPropertiesFile} ..." />
+    <include buildfile="${localPropertiesFile}" />
+  </if>
+
+  <echo message="build.dir: ${build.dir}" />
+  <echo message="debug: ${debug}" />
+  <echo message="Environment: ${env}"/>
+  <echo message="library folder: ${lib}"/>
+  <echo message="ESRI DotNet library folder: ${ESRI.dir}"/>
+  <echo message="Web Server Machine Name: ${webServerName}"/>
+  <echo message="Web Application Directory: ${WebApplicationDir}"/>
+  <echo message="Web Application Bin Directory: ${WebApplicationDirBin}"/>
+  <echo message="Website Directory: ${WebSiteDir}"/>
+  <echo message="Website Bin Directory: ${WebSiteDirBin}"/>
+  <echo message="Web Server Name: ${webServerName}"/>
+
+  <!-- Clean any files or directories that need to go from the previous build-->
+  <target name="clean" description="remove all generated files">
+    <!-- Delete all contents of the build output directory-->
+    <echo message="Deleteing build output directory contents"/>
+    <delete>
+      <fileset basedir="${build.dir}">
+        <include name="**/*.*" />
+      </fileset>
+    </delete>
+    <!-- Delete the build output directory-->
+    <echo message="Deletig the build output directory"/>
+    <delete dir="${build.dir}" failonerror="false" />
+  </target>
+
+  <!-- Initialize any required directories, files etc for the current build-->
+  <target name="init" depends="clean">
+    <!-- Create the output build directory-->
+    <echo message="Create the build output directory"/>
+    <mkdir dir="${build.dir}" />
+  </target>
+
+  <!-- Replace all tokens in the config template files with the property values and turn the DEBUG OFF in the web.config files-->
+  <target name="config" description="" depends="init">
+    <!-- <echo message="Updating config files ..." />
+    <copy file=".\src\WebApplication\web.config.template" tofile=".\src\WebApplication\web.config" overwrite="true">
+      <filterchain>
+        <replacetokens>
+          <token key="AGS_OUTPUT_DIR" value="${WEBAPPLICATION_AGS_OUTPUT_DIR}" />
+          <token key="IMPERSONATE_USERNAME" value="${WEBAPPLICATION_IMPERSONATE_USERNAME}" />
+          <token key="IMPERSONATE_PASSWORD" value="${WEBAPPLICATION_IMPERSONATE_PASSWORD}" />
+          <token key="CONFIG_CONNECTION_STRING" value="${WEBAPPLICATION_CONFIG_CONNECTION_STRING}" />
+        </replacetokens>
+      </filterchain>
+    </copy>
+
+    <copy file=".\src\WebSite\web.config.template" tofile=".\src\WebSite\web.config" overwrite="true">
+      <filterchain>
+        <replacetokens>
+          <token key="AGS_OUTPUT_DIR" value="${WEBSITE_AGS_OUTPUT_DIR}" />
+          <token key="IMPERSONATE_USERNAME" value="${WEBSITE_IMPERSONATE_USERNAME}" />
+          <token key="IMPERSONATE_PASSWORD" value="${WEBSITE_IMPERSONATE_PASSWORD}" />
+          <token key="CONFIG_CONNECTION_STRING" value="${WEBSITE_CONFIG_CONNECTION_STRING}" />
+        </replacetokens>
+      </filterchain>
+    </copy>
+    -->
+    <!-- Turn the DEBUG OFF in the web.config files in both the WebApplication & the WebSite-->
+    <!--<echo message="Turning DEBUG OFF in the WebApplication's web.config file..."/>
+    <xmlpoke file="./src/WebApplication/Web.config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+    <echo message="Turning DEBUG OFF in the WebSite's web.config file..."/>
+    <xmlpoke file="./src/WebSite/Web.config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+     -->
+  </target>
+
+  <!-- Build all the projects & websites in the solution here-->
+  <target name="build" description="debug build (default)" depends="config">
+
+    <echo message="Beginning build operations"/>
+    <echo message="Copying library references to the build output directory"/>
+    <!-- Copy library references to the build directory-->
+    <!-- All library references will be added from the build output directory-->
+    <copy todir="${build.dir}" flatten="true">
+      <fileset basedir="${lib}">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+    <echo message="Successfully copied library references to the build output directory"/>
+
+    <echo message="Beginning to build all projects"/>
+    <!-- build all the projects-->
+    <csc target="library" output="${build.dir}/TDDByExample.dll" debug="${debug}" failonerror="true">
+      <sources basedir="./src/TDDByExample">
+        <include name="**/*.cs" />
+      </sources>
+      <references basedir="${build.dir}">
+        <include name="*.dll" />
+        <!-- Adding an ESRI dependency-->
+        <!--<include name="${ESRI.dir}/ESRI.ArcGIS.System.dll"/>-->
+      </references>
+    </csc>
+    
+    
+    
+    <!-- Here is a template showing how to build other projects-->
+    <!-- 
+    <csc target="library" output="${build.dir}/PROJECT_ASSEMBLY_NAME.dll" debug="${debug}" keyfile="Project.snk" failonerror="true">
+      <sources basedir="./src/PROJECT_SOURCE_DIRECTORY">
+        <include name="**/*.cs" />
+      </sources>
+      <references basedir="${build.dir}">
+        <include name="*.dll" />
+    </references>
+    </csc>
+    -->
+	
+    <!-- Build the web application project-->
+    <!--<csc target="library" output="${build.dir}/WebApplication.dll" debug="${debug}" >
+      <sources basedir="./src/WebApplication">
+        <include name="**/*.cs" />
+      </sources>
+      <references basedir="${build.dir}">
+        <include name="*.dll"/>
+      </references>
+    </csc>-->
+  </target>
+  
+  <!-- This target copies/publishes the web application to the target directory-->
+  <target name="publishWebApp" description="publish web application" depends="build">
+    <!-- Setup Web Site -->
+    <loadtasks assembly="tools\nant\NAnt.Contrib.Tasks.dll" />
+    <!-- delete existing web contents-->
+    <delete>
+      <fileset basedir="${WebApplicationDir}">
+        <include name="**/*.*" />
+      </fileset>
+    </delete>
+    <!--<delete dir="${WebApplicationDir}" failonerror="false" />-->
+
+    <!-- make the web directory-->
+    <mkdir dir="${WebApplicationDir}" if="${not directory::exists(WebApplicationDir)}"  />
+    <!-- make the bin directory for the web-->
+    <mkdir dir="${WebApplicationDirBin}" if="${not directory::exists(WebApplicationDirBin)}"  />
+
+    <!-- copy all the build ouputs to the bin folder-->
+    <copy todir="${WebApplicationDirBin}" overwrite="true">
+      <fileset basedir="${build.dir}">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy all the web application source contents to the web directory-->
+    <copy todir="${WebApplicationDir}" overwrite="true">
+      <fileset basedir="./src/WebApplication">
+        <include name="**/*.*" />
+      </fileset>
+    </copy>
+
+    <mkiisdir iisserver="${webServerName}" dirpath="${WebApplicationDir}" vdirname="WebApplication" authanonymous="true"/>
+  </target>
+
+  <!-- This target copies/publishes the web site to the target directory-->
+  <target name="publishWebSite" description="publish website" depends="build">
+    <!-- Setup Web Site -->
+    <loadtasks assembly="tools\nant\NAnt.Contrib.Tasks.dll" />
+    <!-- delete existing web contents-->
+    <delete>
+      <fileset basedir="${WebSiteDir}">
+        <include name="**/*.*" />
+      </fileset>
+    </delete>
+    <!--<delete dir="${WebSiteDir}" failonerror="false" />-->
+
+    <!-- make the web directory-->
+    <mkdir dir="${WebSiteDir}" if="${not directory::exists(WebSiteDir)}"  />
+    <!-- make the bin directory for the web-->
+    <mkdir dir="${WebSiteDirBin}" if="${not directory::exists(WebSiteDirBin)}"  />
+
+    <!-- copy all the build ouputs to the bin folder-->
+    <copy todir="${WebSiteDirBin}" overwrite="true">
+      <fileset basedir="${build.dir}">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${WebSiteDir}" overwrite="true">
+      <fileset basedir="./src/WebSite">
+        <include name="**/*.*" />
+      </fileset>
+    </copy>
+
+    <mkiisdir iisserver="${webServerName}" dirpath="${WebSiteDir}" vdirname="WebSite" authanonymous="true"/>
+  </target>
+  
+  <!-- This target publishes both the web application & the web site-->
+  <target name="publish" description="publish website" depends="publishWebApp,publishWebSite">
+	<echo message="publishing web application and web site" />
+  </target>
+
+</project>

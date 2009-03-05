@@ -1,0 +1,12 @@
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\TDDByExample.Tests.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\TDDByExample.Tests.pdb
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\MbUnit.Framework.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\TDDByExample.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\TestFu.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\QuickGraph.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\QuickGraph.Algorithms.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\Refly.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\bin\Debug\TDDByExample.pdb
+C:\projects\TDDByExample\tests\TDDByExample.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\TDDByExample\tests\TDDByExample.Tests\obj\Debug\TDDByExample.Tests.dll
+C:\projects\TDDByExample\tests\TDDByExample.Tests\obj\Debug\TDDByExample.Tests.pdb

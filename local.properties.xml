@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="localProperties" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+  <property name ="ESRI.dir" value="C:\Program Files\ArcGIS\DotNet"/>
+  
+  <property name="WEBAPPLICATION_AGS_OUTPUT_DIR" value="c:\arsgisserver\arcgisoutput\webapplication" readonly="false"/>
+  <property name="WEBAPPLICATION_IMPERSONATE_USERNAME" value="LOCAL_WEBAPPLICATION_USERNAME" readonly="false"/>
+  <property name="WEBAPPLICATION_IMPERSONATE_PASSWORD" value="LOCAL_WEBAPPLICATION_PASSWORD" readonly="false"/>
+  <property name="WEBAPPLICATION_CONFIG_CONNECTION_STRING" value="server=(local);database=WebApplication;Integrated Security=SSPI" readonly="false"/>
+
+  <property name="WEBSITE_AGS_OUTPUT_DIR" value="c:\arsgisserver\arcgisoutput\website" readonly="false"/>
+  <property name="WEBSITE_IMPERSONATE_USERNAME" value="LOCAL_WEBSITE_USERNAME" readonly="false"/>
+  <property name="WEBSITE_IMPERSONATE_PASSWORD" value="LOCAL_WEBSITE_PASSWORD" readonly="false"/>
+  <property name="WEBSITE_CONFIG_CONNECTION_STRING" value="server=(local);database=WebSite;Integrated Security=SSPI" readonly="false"/>
+</project>

@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDDByExample.Tests", "tests\TDDByExample.Tests\TDDByExample.Tests.csproj", "{7B194318-3080-4FAA-86DF-3BBAC8F78F2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD0C547E-FAF0-45FF-8460-20476CCF57EC}"
+	ProjectSection(SolutionItems) = preProject
+		go.bat = go.bat
+		local.properties.xml = local.properties.xml
+		Project.build = Project.build
+		ReadMe.txt = ReadMe.txt
+		Staging.properties.xml = Staging.properties.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDDByExample", "src\TDDByExample\TDDByExample.csproj", "{CA7BF208-DD3C-44A8-B2D7-75895802A39B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B194318-3080-4FAA-86DF-3BBAC8F78F2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B194318-3080-4FAA-86DF-3BBAC8F78F2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B194318-3080-4FAA-86DF-3BBAC8F78F2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B194318-3080-4FAA-86DF-3BBAC8F78F2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7BF208-DD3C-44A8-B2D7-75895802A39B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7BF208-DD3C-44A8-B2D7-75895802A39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7BF208-DD3C-44A8-B2D7-75895802A39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7BF208-DD3C-44A8-B2D7-75895802A39B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+C:\projects\TDDByExample\src\TDDByExample\bin\Debug\TDDByExample.dll
+C:\projects\TDDByExample\src\TDDByExample\bin\Debug\TDDByExample.pdb
+C:\projects\TDDByExample\src\TDDByExample\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\TDDByExample\src\TDDByExample\obj\Debug\TDDByExample.dll
+C:\projects\TDDByExample\src\TDDByExample\obj\Debug\TDDByExample.pdb

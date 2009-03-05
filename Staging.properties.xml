@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="localProperties" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+  <!-- Configure location of the ESRI DLLs on the build machine NOT the machine the web app and web site will be published-->
+  <property name ="ESRI.dir" value="C:\Program Files\ArcGIS\DotNet"/>
+  
+  <!-- Configure the name of the web server machine where the web application & website should be published-->
+  <property name ="webServerName" value="STAGING_MACHINE_NAME_HERE"/>
+
+  <!-- Configure the properties for the replacement values for tokens (@XXX@) in the web.config.template file in the web application-->
+  <property name="WEBAPPLICATION_AGS_OUTPUT_DIR" value="c:\arsgisserver\arcgisoutput\webapplication" readonly="false"/>
+  <property name="WEBAPPLICATION_IMPERSONATE_USERNAME" value="staging_webapplication_username" readonly="false"/>
+  <property name="WEBAPPLICATION_IMPERSONATE_PASSWORD" value="staging_webapplication_password" readonly="false"/>
+  <property name="WEBAPPLICATION_CONFIG_CONNECTION_STRING" value="server=(local);database=WebApplication;Integrated Security=SSPI" readonly="false"/>
+
+  <!-- Configure the properties for the replacement values for tokens (@XXX@) in the web.config.template file in the web site-->
+  <property name="WEBSITE_AGS_OUTPUT_DIR" value="c:\arsgisserver\arcgisoutput\website" readonly="false"/>
+  <property name="WEBSITE_IMPERSONATE_USERNAME" value="staging_website_username" readonly="false"/>
+  <property name="WEBSITE_IMPERSONATE_PASSWORD" value="staging_website_password" readonly="false"/>
+  <property name="WEBSITE_CONFIG_CONNECTION_STRING" value="server=(local);database=WebSite;Integrated Security=SSPI" readonly="false"/>
+</project>
