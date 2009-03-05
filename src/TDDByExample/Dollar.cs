@@ -7,11 +7,18 @@
             Amount = amount;
         }
 
-        public int Amount { get; set; }
+        private int Amount { get; set; }
 
-        public void times(int multipler)
+        public Dollar times(int multipler)
         {
-            Amount = multipler*Amount;
+            return new Dollar(multipler*Amount);
+        }
+
+        public override bool Equals(object obj)
+        {
+            Dollar other = (Dollar) obj;
+            return Amount == other.Amount;
+        
         }
     }
 }
