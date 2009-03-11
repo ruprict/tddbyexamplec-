@@ -1,10 +1,11 @@
-﻿using MbUnit.Framework;
+﻿using System.Diagnostics;
+using MbUnit.Framework;
 
 namespace TDDByExample.Tests
 {
     [TestFixture]
     public class DollarTest
-   { 
+    {
         [Test]
         public void ShouldMultiplyFiveTimewTwoAndGet10()
         {
@@ -42,9 +43,47 @@ namespace TDDByExample.Tests
             Money five = Money.dollar(5);
             IExpression sum = five.plus(five);
             Bank bank = new Bank();
-            Money reduced = bank.reduce(sum, "USD");
+            Money reduced = bank.Reduce(sum, "USD");
 
-            Assert.AreEqual(reduced,Money.dollar(10));
+            Assert.AreEqual(reduced, Money.dollar(10));
+        }
+
+        [Test]
+        public void testPlusReturnsSum()
+        {
+            Money five = Money.dollar(5);
+            IExpression result = five.plus(five);
+            Sum sum = (Sum)result;
+            Assert.AreEqual(five, sum.Augend);
+            Assert.AreEqual(five, sum.Addend);
+          
+        }
+
+        [Test]
+        public void testReduceSum()
+        {
+            IExpression sum = new Sum(Money.dollar(3), Money.dollar(4));
+            Bank bank = new Bank();
+            Money result = bank.Reduce(sum, "USD");
+            Assert.AreEqual(Money.dollar(7), result);
+        }
+
+
+        [Test]
+        public void testReduceMoney()
+        {
+            Bank bank = new Bank();
+            Money result = bank.Reduce(Money.dollar(1), "USD");
+            Assert.AreEqual(Money.dollar(1), result);
+        }
+
+        [Test]
+        public void testReduceMoneyDifferentCurrency()
+        {
+            Bank bank = new Bank();
+            bank.AddRate("CHF", "USD", 2);
+            Money result = bank.Reduce(Money.franc(2), "USD");
+            Assert.AreEqual(Money.dollar(1), result);
         }
     }
 }
