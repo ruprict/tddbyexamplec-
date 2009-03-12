@@ -41,7 +41,7 @@ namespace TDDByExample.Tests
         public void testSimpleAddition()
         {
             Money five = Money.dollar(5);
-            IExpression sum = five.plus(five);
+            IExpression sum = five.Plus(five);
             Bank bank = new Bank();
             Money reduced = bank.Reduce(sum, "USD");
 
@@ -52,7 +52,7 @@ namespace TDDByExample.Tests
         public void testPlusReturnsSum()
         {
             Money five = Money.dollar(5);
-            IExpression result = five.plus(five);
+            IExpression result = five.Plus(five);
             Sum sum = (Sum)result;
             Assert.AreEqual(five, sum.Augend);
             Assert.AreEqual(five, sum.Addend);
@@ -85,5 +85,42 @@ namespace TDDByExample.Tests
             Money result = bank.Reduce(Money.franc(2), "USD");
             Assert.AreEqual(Money.dollar(1), result);
         }
+
+        [Test]
+        public void testMixedAddition()
+        {
+            IExpression fiveBucks = Money.dollar(5);
+            IExpression tenFrancs = Money.franc(10);
+            Bank bank = new Bank();
+            bank.AddRate("CHF", "USD", 2);
+            Money result = bank.Reduce(fiveBucks.Plus(tenFrancs), "USD");
+            Assert.AreEqual(result, Money.dollar(10));
+        }
+
+        [Test]
+        public void testSumPlusMoney()
+        {
+            IExpression fiveBucks = Money.dollar(5);
+            IExpression tenFrances = Money.franc(10);
+            Bank bank = new Bank();
+            bank.AddRate("CHF", "USD", 2);
+            IExpression sum = new Sum(fiveBucks,tenFrances).Plus(fiveBucks);
+            Money result = bank.Reduce(sum, "USD");
+            Assert.AreEqual(Money.dollar(15), result);
+        }
+
+        [Test]
+        public void testSumTimes()
+        {
+            IExpression fiveBucks = Money.dollar(5);
+            IExpression tenFrances = Money.franc(10);
+            Bank bank = new Bank();
+            bank.AddRate("CHF", "USD", 2);
+            IExpression sum = new Sum(fiveBucks, tenFrances).Times(2);
+            Money result = bank.Reduce(sum, "USD");
+            Assert.AreEqual(Money.dollar(20), result);
+        }
+
+       
     }
 }

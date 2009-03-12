@@ -16,6 +16,8 @@ namespace TDDByExample
        
         public override bool Equals(object obj)
         {
+            if (!(obj is Money))
+                return false;
             Money other = (Money)obj;
             return Amount == other.Amount &&
                 other.Currency==Currency;
@@ -33,7 +35,7 @@ namespace TDDByExample
         }
 
 
-        public Money times(int multipler)
+        public IExpression times(int multipler)
         {
             return new Money(Amount * multipler, Currency);
         }
@@ -42,11 +44,15 @@ namespace TDDByExample
         {
             return Amount + " " + Currency;
         }
-        public Sum plus(Money other)
+        public IExpression Plus(IExpression other)
         {
             return new Sum(this,other);
         }
 
+        public IExpression Times(int mulitplier)
+        {
+            return new Money(Amount*mulitplier, Currency);
+        }
         public Money Reduce(Bank source,string to)
         {
             int rate = source.Rate(Currency, to);
