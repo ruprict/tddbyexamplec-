@@ -1,7 +1,8 @@
-require 'WasRun'
+require 'TestCaseTest'
 
-test = WasRun.new("testMethod")
-puts test.wasRun
-test.run()
-puts test.wasRun
+test = TestCaseTest.new("testRunning")
+test.run
+test = TestCaseTest.new("testSetup")
+test.run
+
 
