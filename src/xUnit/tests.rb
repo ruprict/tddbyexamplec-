@@ -1,8 +1,7 @@
 require 'TestCaseTest'
 
-test = TestCaseTest.new("testRunning")
-test.run
-test = TestCaseTest.new("testSetup")
-test.run
 
-
+test = TestCaseTest.new("testTemplateMethod")
+test.run
+test = TestCaseTest.new("testResult")
+test.run

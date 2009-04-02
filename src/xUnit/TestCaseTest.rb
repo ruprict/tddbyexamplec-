@@ -6,12 +6,17 @@ class TestCaseTest < TestCase
 		super
 		@test=WasRun.new("testMethod")
 	end
-	def testSetup	
-		@test.run
-		assert(@test.wasSetup)
+	
+	def testTemplateMethod
+		test=WasRun.new("testMethod")
+		test.run
+		assert("setUp testMethod tearDown"==test.log)
 	end
-	def testRunning
-		@test.run
-		assert(@test.wasRun)
+	
+	def testResult
+		test = WasRun.new("testMethod")
+		result = test.run()
+		assert("1 run, 0 failed"==result.summary)
 	end
+	
 end

@@ -1,19 +1,23 @@
+require 'TestResult'
 class TestCase
-	attr_accessor :wasRun
-	attr_accessor :wasSetup
+	attr_accessor :log
+	
 	def initialize(methodName)
-		@wasRun=false
 		@methodName=methodName	
 	end
 	
 	def setUp
-		@wasSetup=true
-		puts "fart"
+		@log = "setUp "
 	end
-	
+	def tearDown
+		puts "*** in tearDown"
+		@log+="tearDown"
+	end
 	def run
 		setUp
 		send(@methodName)
+		tearDown
+		return TestResult.new
 	end
 	def assert(condition)
 		if (!condition)
